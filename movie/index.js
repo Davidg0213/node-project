@@ -1,3 +1,17 @@
 const express = require("express")
-const app = express ()
 
+//conexión con la BDD
+const connectDB = require("./config/db")
+
+//importa routers
+
+
+
+//middlewares
+
+
+
+//usando rutas
+
+
+//conexión servidor
