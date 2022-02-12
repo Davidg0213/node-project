@@ -8,19 +8,25 @@ const {connection}= require("./config/db")
 connection()
 
 //importa routers
-
-
-
-//definiendo app
+const movies = require("./routes/movies");
+const users = require("./routes/users");
+const auth = require("./routes/auth")
 
 const app = express()
+//definiendo app
+
+movies(app)
+users(app)
+auth(app)
 
 //middlewares
 
+app.use(express.json())
+app.use(cors)
 
 
 //usando rutas
-
+app.use("../routes")
 
 //conexión servidor
 
