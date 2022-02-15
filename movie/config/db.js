@@ -1,9 +1,11 @@
-const mongoose= require("mongoose")
-const config = require("./index")
+const mongoose = require('mongoose')
 
-const connection = async ()=>{
-    const conn = await mongoose.connect(`mongodb+srv://${config.db_username}:${config.db_password}@${config.db_host}/${config.db_name}`) 
-    console.log("Mongo DB connected", conn.connection.host)
+
+const connectDB = (url) => {
+  return mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
 }
 
-module.exports = {connection,mongoose}
+module.exports = connectDB

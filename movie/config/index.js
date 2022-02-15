@@ -1,6 +1,8 @@
-require("dotenv").config({path:"./env"})
+require("dotenv").config()
 
 const config = {
+
+    MONGO_URI: process.env.MONGO_URI,
     port:process.env.PORT,
     db_password: process.env.DB_PASSWORD,
     db_username: process.env.DB_USERNAME,

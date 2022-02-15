@@ -7,6 +7,93 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Hola</p>
+
+    <p id="status"></p>
+    <button id="logout">Cerrar sesión</button>
+    <button id="logoutCookie">Cerrar sesión cookie</button>
+    <form id="form">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <button>Iniciar sesion</button>
+    </form>
+
+    <button id="fetchUser">Consultar usuarios</button>
+
+    <!-- Token, origen, JWT -->
+
+    <script>
+        const form = document.getElementById("form")
+        const statusElement = document.getElementById("status")
+        const fetchUser = document.getElementById("fetchUser")
+        const logoutButton = document.getElementById("logout")
+        const logoutButtonCookie = document.getElementById("logoutCookie")
+
+        function iniciarSesion(){
+            fetch("http://localhost:3000/auth/login",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    email:form.email.value,
+                    password:form.password.value
+                }),
+                credentials:'include'
+            }).then(res=>{
+                return res.json()
+            }).then(data=>{
+                localStorage.setItem("token",data.token)
+                statusElement.innerText = "Sesión iniciada"
+            })
+        }
+
+        
+
+        if(localStorage.getItem("token")){
+            statusElement.innerText = "Sesión iniciada"
+        }else{
+            statusElement.innerText = "Sin permisos"
+        }
+
+        form.onsubmit = (event)=>{
+            event.preventDefault()
+            iniciarSesion()
+            // Brayan 1951
+            // Matias Masparrote
+            // Lucas Rojas
+            // Cookies (tipos), localStorage y sessionStorage
+        }
+
+
+        fetchUser.onclick = ()=>{
+            fetch("http://localhost:3000/users",{
+                // headers:{
+                //     "Authorization":"Bearer "+localStorage.getItem("token")
+                // },
+                credentials:'include'
+            })
+            .then(res=>res.json())
+            .then(data=>console.log(data))
+        }
+
+        logoutButton.onclick=()=>{
+            localStorage.removeItem("token")
+            statusElement.innerText = "Sin permisos"
+        }
+        logoutButtonCookie.onclick=()=>{
+            fetch("http://localhost:3000/auth/logout",{
+                // headers:{
+                //     "Authorization":"Bearer "+localStorage.getItem("token")
+                // },
+                method:"POST",
+                credentials:'include'
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data)
+                statusElement.innerText = "Sin permisos"
+            })
+        }
+    </script>
 </body>
 </html>
